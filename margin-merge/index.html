@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>margin-merge</title>
+
+    <style>
+      .margin-merge1 {
+        width: 200px;
+        height: 200px;
+        background-color: red;
+        margin-bottom: 50px;
+      }
+      .margin-merge2 {
+        width: 200px;
+        height: 200px;
+        background-color: blue;
+        margin-top: 100px;
+      }
+
+      .margin-merge-container {
+        display: flex;
+        flex-direction: row;
+        margin-top: 100px;
+      }
+      .margin-merge3 {
+        width: 200px;
+        height: 200px;
+        background-color: green;
+        margin-right: 50px;
+      }
+      .margin-merge4 {
+        width: 200px;
+        height: 200px;
+        background-color: yellow;
+        margin-left: 100px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="margin-merge1"></div>
+    <div class="margin-merge2"></div>
+
+    <!-- 
+      在 flex 布局（如本例的 .margin-merge-container）下，左右方向的外边距不会合并。
+      如果想要让左右布局的块状元素也出现外边距合并的效果，需要避免使用 flex 或其它会抑制 margin 合并的布局模式。
+      可以采用普通文档流，将两个块级元素上下排列（比如用float或inline-block模拟左右布局，或者用“display: block”普通流），
+      并让它们的 margin-left 和 margin-right 相接触，但需要注意：CSS 的外边距合并默认只发生在垂直方向（上下margin），
+      左右方向是不会合并的，CSS 规范不支持左右 margin 合并。
+
+      如果目的是让两个相邻元素之间的空隙等于较大的一个 margin（类似于垂直 margin 合并效果），
+      可以通过设置相邻元素只在一边设置 margin，或者用 CSS 变量辅助实现。但无法像上下方向那样自动合并。
+
+      例如：
+      <div style="display:inline-block; width:200px; height:200px; background:green; margin-right:50px;"></div>
+      <div style="display:inline-block; width:200px; height:200px; background:yellow; margin-left:100px;"></div>
+      这里左右 margin 只会相加，不会合并。
+    -->
+    <div class="margin-merge-container">
+      <div class="margin-merge3"></div>
+      <div class="margin-merge4"></div>
+    </div>
+  </body>
+</html>
