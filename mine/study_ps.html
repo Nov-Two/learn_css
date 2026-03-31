@@ -1,0 +1,906 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>study_ps</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #070b18;
+        --panel: rgba(255, 255, 255, 0.06);
+        --panel-strong: rgba(255, 255, 255, 0.12);
+        --stroke: rgba(255, 255, 255, 0.18);
+        --text: rgba(255, 255, 255, 0.92);
+        --muted: rgba(255, 255, 255, 0.62);
+        --brand: #66b0ff;
+        --brand-2: #ad5cff;
+        --accent: #d8ff2b;
+        --shadow: 0 18px 60px rgba(0, 0, 0, 0.52);
+        --radius-lg: 24px;
+        --radius-md: 16px;
+        --radius-sm: 12px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          "Helvetica Neue",
+          Arial,
+          "Noto Sans",
+          "Apple Color Emoji",
+          "Segoe UI Emoji";
+        background:
+          radial-gradient(
+            1200px 700px at 18% 10%,
+            rgba(102, 176, 255, 0.35),
+            transparent 60%
+          ),
+          radial-gradient(
+            900px 560px at 90% 20%,
+            rgba(173, 92, 255, 0.3),
+            transparent 55%
+          ),
+          radial-gradient(
+            860px 560px at 50% 95%,
+            rgba(216, 255, 43, 0.18),
+            transparent 60%
+          ),
+          var(--bg);
+        color: var(--text);
+      }
+
+      .page {
+        min-height: 100%;
+        padding: 28px 18px 56px;
+        display: grid;
+        gap: 18px;
+        place-items: center;
+      }
+
+      .shell {
+        width: min(1100px, 100%);
+        display: grid;
+        gap: 18px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+      }
+
+      .title {
+        display: grid;
+        gap: 6px;
+      }
+
+      .title h1 {
+        margin: 0;
+        font-size: clamp(18px, 2.4vw, 28px);
+        letter-spacing: 0.02em;
+      }
+
+      .title p {
+        margin: 0;
+        font-size: 14px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .chips {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        justify-content: flex-end;
+      }
+
+      .chip {
+        appearance: none;
+        border: 1px solid var(--stroke);
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 9px 12px;
+        font-size: 13px;
+        cursor: pointer;
+        transition:
+          transform 160ms ease,
+          background-color 160ms ease,
+          border-color 160ms ease;
+      }
+
+      .chip[aria-pressed="true"] {
+        border-color: rgba(255, 255, 255, 0.32);
+        background: rgba(255, 255, 255, 0.12);
+      }
+
+      .chip:active {
+        transform: translateY(1px);
+      }
+
+      .panel {
+        border: 1px solid var(--stroke);
+        border-radius: var(--radius-lg);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.07),
+          rgba(255, 255, 255, 0.04)
+        );
+        box-shadow: var(--shadow);
+        overflow: clip;
+      }
+
+      .panel__head {
+        padding: 16px 18px;
+        display: grid;
+        gap: 6px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .panel__head strong {
+        font-size: 14px;
+        letter-spacing: 0.04em;
+      }
+
+      .panel__head span {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .panel__body {
+        padding: 18px;
+      }
+
+      .grid-2 {
+        display: grid;
+        gap: 18px;
+      }
+
+      @media (min-width: 940px) {
+        .grid-2 {
+          grid-template-columns: 1fr 1fr;
+          align-items: start;
+        }
+      }
+
+      .stage-wrap {
+        width: 100%;
+        height: min(62vh, 520px);
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        border-radius: var(--radius-lg);
+        border: 1px dashed rgba(255, 255, 255, 0.18);
+        background: rgba(0, 0, 0, 0.25);
+      }
+
+      .stage {
+        position: relative;
+        width: 860px;
+        height: 480px;
+        transform-origin: 0 0;
+        border-radius: 28px;
+        background:
+          radial-gradient(
+            600px 340px at 15% 15%,
+            rgba(102, 176, 255, 0.35),
+            transparent 60%
+          ),
+          radial-gradient(
+            520px 320px at 90% 18%,
+            rgba(173, 92, 255, 0.32),
+            transparent 60%
+          ),
+          linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.08),
+            rgba(255, 255, 255, 0.03)
+          );
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 22px 90px rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+      }
+
+      .stage .abs {
+        position: absolute;
+      }
+
+      .blob {
+        left: 48px;
+        top: 68px;
+        width: 280px;
+        height: 220px;
+        background:
+          radial-gradient(
+            circle at 30% 40%,
+            rgba(102, 176, 255, 0.42),
+            transparent 62%
+          ),
+          radial-gradient(
+            circle at 70% 60%,
+            rgba(216, 255, 43, 0.22),
+            transparent 64%
+          );
+        filter: blur(4px);
+        opacity: 0.95;
+        transform: rotate(-10deg);
+        animation: floaty 3.8s ease-in-out infinite;
+      }
+
+      .card-ps {
+        left: 82px;
+        top: 168px;
+        width: 250px;
+        height: 310px;
+        border-radius: 24px;
+        background: linear-gradient(
+          160deg,
+          rgba(255, 255, 255, 0.14),
+          rgba(255, 255, 255, 0.04)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 16px 50px rgba(0, 0, 0, 0.44);
+        overflow: hidden;
+        transform: translateZ(0);
+      }
+
+      .card-ps::before {
+        content: "";
+        position: absolute;
+        inset: -40% -30%;
+        background: conic-gradient(
+          from 120deg,
+          rgba(216, 255, 43, 0),
+          rgba(216, 255, 43, 0.26),
+          rgba(102, 176, 255, 0.22),
+          rgba(173, 92, 255, 0.22),
+          rgba(216, 255, 43, 0)
+        );
+        filter: blur(14px);
+        opacity: 0.8;
+        animation: spin 4.6s linear infinite;
+      }
+
+      .badge {
+        left: 30px;
+        top: 28px;
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.36);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        backdrop-filter: blur(10px);
+      }
+
+      .badge__dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 99px;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px rgba(216, 255, 43, 0.14);
+        animation: pulse 1.4s ease-in-out infinite;
+      }
+
+      .badge__text {
+        font-size: 13px;
+        letter-spacing: 0.04em;
+        color: rgba(255, 255, 255, 0.84);
+      }
+
+      .stage-title {
+        left: 360px;
+        top: 72px;
+        width: 450px;
+        display: grid;
+        gap: 8px;
+      }
+
+      .stage-title strong {
+        font-size: 28px;
+        letter-spacing: 0.03em;
+      }
+
+      .stage-title span {
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .progress {
+        left: 360px;
+        top: 190px;
+        width: 440px;
+      }
+
+      .progress__meta {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 10px;
+      }
+
+      .progress__meta strong {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.8);
+        letter-spacing: 0.05em;
+      }
+
+      .progress__meta span {
+        font-size: 13px;
+        color: rgba(255, 255, 255, 0.92);
+      }
+
+      .bar {
+        height: 14px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.12);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .bar__fill {
+        height: 100%;
+        width: 0%;
+        border-radius: 999px;
+        background: linear-gradient(
+          90deg,
+          var(--accent),
+          rgba(216, 255, 43, 0.35)
+        );
+        box-shadow:
+          0 0 0 1px rgba(216, 255, 43, 0.3),
+          0 10px 30px rgba(216, 255, 43, 0.24);
+        animation: fill 1100ms ease-out forwards;
+      }
+
+      .bar::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.16) 40%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        transform: translateX(-60%);
+        animation: shimmer 2.2s ease-in-out infinite;
+        opacity: 0.65;
+        pointer-events: none;
+      }
+
+      .right-poster {
+        left: 610px;
+        top: 260px;
+        width: 210px;
+        height: 180px;
+        border-radius: 18px;
+        background:
+          linear-gradient(
+            135deg,
+            rgba(102, 176, 255, 0.28),
+            rgba(173, 92, 255, 0.26)
+          ),
+          rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
+        transform: perspective(900px) rotateY(-12deg) rotateX(6deg);
+        animation: poster 4.2s ease-in-out infinite;
+      }
+
+      .responsive {
+        display: grid;
+        gap: 14px;
+      }
+
+      .responsive__hero {
+        border-radius: var(--radius-lg);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.09),
+          rgba(255, 255, 255, 0.04)
+        );
+        padding: 16px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .responsive__hero-top {
+        display: flex;
+        align-items: start;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .responsive__hero-top strong {
+        font-size: 14px;
+        letter-spacing: 0.05em;
+        color: rgba(255, 255, 255, 0.82);
+      }
+
+      .responsive__hero-top span {
+        font-size: 13px;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: linear-gradient(
+          90deg,
+          rgba(216, 255, 43, 0.95),
+          rgba(216, 255, 43, 0.62)
+        );
+        color: rgba(10, 12, 20, 0.92);
+        font-weight: 700;
+        border-radius: 14px;
+        padding: 12px 16px;
+        cursor: pointer;
+        transition:
+          transform 160ms ease,
+          filter 160ms ease;
+      }
+
+      .cta:active {
+        transform: translateY(1px);
+      }
+
+      .cta:hover {
+        filter: brightness(1.08);
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      @media (max-width: 540px) {
+        .cards {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .reward {
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(255, 255, 255, 0.06);
+        overflow: hidden;
+        position: relative;
+        padding: 12px;
+        display: grid;
+        gap: 10px;
+        transform: translateZ(0);
+        transition:
+          transform 160ms ease,
+          border-color 160ms ease,
+          background-color 160ms ease;
+      }
+
+      .reward:hover {
+        transform: translateY(-2px);
+        border-color: rgba(255, 255, 255, 0.24);
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .reward__thumb {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        border-radius: 14px;
+        background:
+          radial-gradient(
+            circle at 30% 35%,
+            rgba(102, 176, 255, 0.4),
+            transparent 58%
+          ),
+          radial-gradient(
+            circle at 70% 55%,
+            rgba(173, 92, 255, 0.36),
+            transparent 60%
+          ),
+          rgba(0, 0, 0, 0.24);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .reward__thumb::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          120deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.14) 40%,
+          rgba(255, 255, 255, 0) 70%
+        );
+        transform: translateX(-80%);
+        transition: transform 420ms ease;
+      }
+
+      .reward:hover .reward__thumb::after {
+        transform: translateX(60%);
+      }
+
+      .reward__title {
+        font-weight: 700;
+        letter-spacing: 0.02em;
+        font-size: 14px;
+      }
+
+      .reward__meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        color: var(--muted);
+        font-size: 12px;
+      }
+
+      .tag {
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(255, 255, 255, 0.06);
+        padding: 4px 8px;
+        border-radius: 999px;
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.78);
+      }
+
+      .reward--active {
+        border-color: rgba(216, 255, 43, 0.55);
+        background: rgba(216, 255, 43, 0.08);
+      }
+
+      .reward--active .reward__thumb {
+        background:
+          radial-gradient(
+            circle at 35% 40%,
+            rgba(216, 255, 43, 0.36),
+            transparent 58%
+          ),
+          radial-gradient(
+            circle at 65% 55%,
+            rgba(102, 176, 255, 0.28),
+            transparent 64%
+          ),
+          rgba(0, 0, 0, 0.24);
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      @keyframes floaty {
+        0%,
+        100% {
+          transform: translateY(0) rotate(-10deg);
+        }
+        50% {
+          transform: translateY(-10px) rotate(-8deg);
+        }
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.12);
+          opacity: 0.78;
+        }
+      }
+
+      @keyframes fill {
+        from {
+          width: 0%;
+        }
+        to {
+          width: var(--p, 70%);
+        }
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-65%);
+        }
+        45% {
+          transform: translateX(15%);
+        }
+        100% {
+          transform: translateX(65%);
+        }
+      }
+
+      @keyframes poster {
+        0%,
+        100% {
+          transform: perspective(900px) rotateY(-12deg) rotateX(6deg)
+            translateY(0);
+        }
+        50% {
+          transform: perspective(900px) rotateY(-10deg) rotateX(7deg)
+            translateY(-8px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <div class="shell">
+        <header class="topbar">
+          <div class="title">
+            <h1>小案例：用“舞台缩放” + “响应式组件”掌握布局与动画</h1>
+            <p>
+              你会练到两套方法：① 先像 PS 一样绝对定位做 1:1；②
+              再把它拆成可维护的 Flex/Grid 组件，并加动效。
+            </p>
+          </div>
+          <div class="chips" role="group" aria-label="mode switch">
+            <button
+              class="chip"
+              type="button"
+              data-mode="stage"
+              aria-pressed="true"
+            >
+              舞台(PS)
+            </button>
+            <button
+              class="chip"
+              type="button"
+              data-mode="responsive"
+              aria-pressed="false"
+            >
+              响应式
+            </button>
+          </div>
+        </header>
+
+        <section class="panel" id="stagePanel">
+          <div class="panel__head">
+            <strong>方法 A：固定画布 + 统一缩放（最适合 PS 高保真还原）</strong>
+            <span
+              >要点：父容器 relative；子元素 absolute；只缩放舞台，不改每个
+              left/top/width/height。</span
+            >
+          </div>
+          <div class="panel__body">
+            <div class="stage-wrap">
+              <div class="stage" id="stage">
+                <div class="abs blob"></div>
+                <div class="abs card-ps"></div>
+                <div class="abs badge">
+                  <i class="badge__dot"></i>
+                  <span class="badge__text">COUNTDOWN: 1D 16H</span>
+                </div>
+                <div class="abs stage-title">
+                  <strong>REGIONAL PROGRESS</strong>
+                  <span
+                    >这一块用 absolute
+                    先还原像素位置，然后你再决定哪些可以抽成组件做响应式。</span
+                  >
+                </div>
+                <div class="abs progress">
+                  <div class="progress__meta">
+                    <strong>Current Region Process</strong>
+                    <span>89M</span>
+                  </div>
+                  <div class="bar" style="--p: 68%">
+                    <div class="bar__fill"></div>
+                  </div>
+                </div>
+                <div class="abs right-poster"></div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="panel hidden" id="responsivePanel">
+          <div class="panel__head">
+            <strong
+              >方法 B：拆成结构（Flex/Grid）+
+              可复用样式（更适合长期维护）</strong
+            >
+            <span
+              >要点：用 Grid 控制卡片排布；用 aspect-ratio
+              稳定缩放；动效只加在关键层。</span
+            >
+          </div>
+          <div class="panel__body">
+            <div class="grid-2">
+              <div class="responsive">
+                <div class="responsive__hero">
+                  <div class="responsive__hero-top">
+                    <div class="title">
+                      <strong>PROGRESS</strong>
+                      <span>把“信息层”和“装饰层”分开，布局更稳。</span>
+                    </div>
+                    <button class="cta" type="button" id="claimBtn">
+                      CLAIM
+                    </button>
+                  </div>
+                  <div class="bar" style="--p: 72%">
+                    <div class="bar__fill"></div>
+                  </div>
+                </div>
+
+                <div class="cards">
+                  <article class="reward reward--active">
+                    <div class="reward__thumb"></div>
+                    <div class="reward__title">Reward A</div>
+                    <div class="reward__meta">
+                      <span>200,000</span>
+                      <span class="tag">x10</span>
+                    </div>
+                  </article>
+                  <article class="reward">
+                    <div class="reward__thumb"></div>
+                    <div class="reward__title">Reward B</div>
+                    <div class="reward__meta">
+                      <span>300,000</span>
+                      <span class="tag">x10</span>
+                    </div>
+                  </article>
+                  <article class="reward">
+                    <div class="reward__thumb"></div>
+                    <div class="reward__title">Reward C</div>
+                    <div class="reward__meta">
+                      <span>600,000</span>
+                      <span class="tag">x10</span>
+                    </div>
+                  </article>
+                </div>
+              </div>
+
+              <div class="responsive__hero">
+                <div class="responsive__hero-top">
+                  <div class="title">
+                    <strong>动效练习入口</strong>
+                    <span
+                      >点击按钮切换“领取状态”，练
+                      transition、keyframes、状态样式。</span
+                    >
+                  </div>
+                  <span class="tag" id="stateTag">IDLE</span>
+                </div>
+                <div style="display: grid; gap: 10px">
+                  <button
+                    class="chip"
+                    type="button"
+                    id="toggleGlow"
+                    aria-pressed="false"
+                  >
+                    切换高亮
+                  </button>
+                  <button
+                    class="chip"
+                    type="button"
+                    id="toggleReduce"
+                    aria-pressed="false"
+                  >
+                    减弱动效
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      const DESIGN_W = 860;
+      const DESIGN_H = 480;
+
+      const stage = document.getElementById("stage");
+      const stageWrap = document.querySelector(".stage-wrap");
+      const stagePanel = document.getElementById("stagePanel");
+      const responsivePanel = document.getElementById("responsivePanel");
+      const chips = Array.from(document.querySelectorAll(".chip[data-mode]"));
+
+      const claimBtn = document.getElementById("claimBtn");
+      const stateTag = document.getElementById("stateTag");
+      const toggleGlow = document.getElementById("toggleGlow");
+      const toggleReduce = document.getElementById("toggleReduce");
+
+      function setMode(mode) {
+        const isStage = mode === "stage";
+        stagePanel.classList.toggle("hidden", !isStage);
+        responsivePanel.classList.toggle("hidden", isStage);
+        chips.forEach((b) => {
+          b.setAttribute("aria-pressed", String(b.dataset.mode === mode));
+        });
+        if (isStage) resizeStage();
+      }
+
+      function resizeStage() {
+        const rect = stageWrap.getBoundingClientRect();
+        const s = Math.min(rect.width / DESIGN_W, rect.height / DESIGN_H);
+        stage.style.transform = `scale(${s})`;
+      }
+
+      function animateBars() {
+        document.querySelectorAll(".bar__fill").forEach((el) => {
+          el.style.animation = "none";
+          el.offsetHeight;
+          el.style.animation = "";
+        });
+      }
+
+      window.addEventListener("resize", resizeStage);
+      resizeStage();
+
+      chips.forEach((b) => {
+        b.addEventListener("click", () => {
+          setMode(b.dataset.mode);
+          animateBars();
+        });
+      });
+
+      let claimed = false;
+      function setClaimState(next) {
+        claimed = next;
+        stateTag.textContent = claimed ? "CLAIMED" : "IDLE";
+        claimBtn.textContent = claimed ? "CLAIMED" : "CLAIM";
+        claimBtn.style.opacity = claimed ? "0.82" : "1";
+        animateBars();
+      }
+
+      claimBtn.addEventListener("click", () => setClaimState(!claimed));
+
+      toggleGlow.addEventListener("click", () => {
+        const pressed = toggleGlow.getAttribute("aria-pressed") === "true";
+        toggleGlow.setAttribute("aria-pressed", String(!pressed));
+        document
+          .querySelectorAll(".reward")
+          .forEach((el) => el.classList.toggle("reward--active", !pressed));
+      });
+
+      toggleReduce.addEventListener("click", () => {
+        const pressed = toggleReduce.getAttribute("aria-pressed") === "true";
+        toggleReduce.setAttribute("aria-pressed", String(!pressed));
+        document.documentElement.style.setProperty(
+          "--reduce",
+          pressed ? "0" : "1"
+        );
+        document.querySelectorAll("*").forEach((el) => {
+          el.style.animationPlayState = pressed ? "running" : "paused";
+        });
+      });
+    </script>
+  </body>
+</html>

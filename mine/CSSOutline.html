@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CSS Outline 实战演示</title>
+    <style>
+      /* 基础布局样式 */
+      body {
+        font-family:
+          -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        background-color: #f4f4f9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      .container {
+        display: flex;
+        gap: 40px;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      /* --- 核心实战样式开始 --- */
+
+      .product-card {
+        position: relative;
+        width: 260px;
+        padding: 24px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+
+        /* 【关键点 1】双层边框效果 */
+        /* 内层边框：实线，深色 */
+        border: 2px solid #333;
+        /* 外层轮廓：虚线，灰色，默认紧贴边框 */
+        outline: 2px dashed #ccc;
+        /* 关键属性：让轮廓向外偏移 6px，形成双层视觉效果 */
+        outline-offset: 6px;
+
+        /* 确保轮廓过渡平滑 */
+        transition:
+          outline-color 0.3s,
+          outline-offset 0.3s,
+          transform 0.2s;
+      }
+
+      .product-card h3 {
+        margin-top: 0;
+        color: #222;
+      }
+
+      .product-card p {
+        color: #666;
+        line-height: 1.5;
+      }
+
+      .btn {
+        display: inline-block;
+        margin-top: 16px;
+        padding: 10px 20px;
+        background: #333;
+        color: white;
+        text-decoration: none;
+        border-radius: 6px;
+        font-size: 14px;
+      }
+
+      /* --- 交互状态 --- */
+
+      /* 1. 鼠标悬停 (Hover) */
+      /* 改变轮廓颜色，增加一点偏移，制造“浮起”感 */
+      .product-card:hover {
+        outline-color: #3b82f6; /* 蓝色虚线 */
+        outline-offset: 8px; /* 稍微再往外扩一点 */
+        transform: translateY(-4px);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+      }
+
+      /* 2. 键盘聚焦 (Focus) - 无障碍核心 */
+      /* 当用户按 Tab 键选中卡片时 */
+      .product-card:focus-visible {
+        /* 移除默认的黑色细线，换成高对比度的金色/橙色光环 */
+        outline: 3px solid #f59e0b;
+        outline-style: solid; /* 聚焦时变成实线，更醒目 */
+        outline-offset: 8px; /* 保持较大的间距，防止遮挡内容 */
+
+        /* 聚焦时也可以稍微放大，但不会像 border 那样挤乱布局 */
+        transform: scale(1.02);
+        z-index: 10; /* 确保轮廓浮在其他卡片之上 */
+      }
+
+      /* 3. 按钮内部的焦点优化 */
+      .btn:focus-visible {
+        outline: 2px solid #f59e0b;
+        outline-offset: 2px;
+        background-color: #444;
+      }
+
+      /* 【调试技巧】临时开启全局轮廓查看布局 */
+      /* 取消下面注释即可查看所有元素的边界，且页面不会乱 */
+      /* * { outline: 1px solid red !important; } */
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <!-- 卡片 1 -->
+      <article class="product-card" tabindex="0">
+        <h3>无线耳机</h3>
+        <p>
+          沉浸式降噪体验，续航长达 30 小时。尝试按 <code>Tab</code> 键选中我。
+        </p>
+        <a href="#" class="btn">查看详情</a>
+      </article>
+
+      <!-- 卡片 2 -->
+      <article class="product-card" tabindex="0">
+        <h3>机械键盘</h3>
+        <p>青轴手感，RGB 背光，专为极客设计。注意观察外层的虚线轮廓。</p>
+        <a href="#" class="btn">查看详情</a>
+      </article>
+
+      <!-- 卡片 3 -->
+      <article class="product-card" tabindex="0">
+        <h3>4K 显示器</h3>
+        <p>色彩精准，细节毕现。聚焦时我会变成橙色实线光环。</p>
+        <a href="#" class="btn">查看详情</a>
+      </article>
+    </div>
+
+    <script>
+      // 可选：增强体验 - 仅在键盘操作时显示焦点样式
+      // 如果用户用鼠标点击，则不显示夸张的焦点框，保持界面整洁
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") {
+          document.body.classList.add("keyboard-nav");
+        }
+      });
+
+      document.addEventListener("mousedown", () => {
+        document.body.classList.remove("keyboard-nav");
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+
+<style>
+.card-wrap { display: flex; gap: 24px; justify-content: center; padding: 24px 0; flex-wrap: wrap; }
+.card { width: 160px; text-align: center; }
+.card-face {
+  width: 160px; height: 260px; border-radius: 12px;
+  background: linear-gradient(160deg, #1a0a2e, #2d1458);
+  border: 1.5px solid #7c5cbf;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  margin-bottom: 12px; position: relative; overflow: hidden;
+  box-shadow: 0 4px 24px rgba(120,80,200,0.2);
+}
+.card-face::before {
+  content: ''; position: absolute; inset: 8px;
+  border-radius: 8px; border: 1px solid rgba(255,255,255,0.12);
+}
+.card-symbol { font-size: 48px; margin-bottom: 8px; }
+.card-name { font-size: 13px; font-weight: 500; color: #e8d9ff; letter-spacing: 0.04em; }
+.card-orient { font-size: 11px; color: #a888e0; margin-top: 4px; }
+.card-pos { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 6px; }
+.card-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.card-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.6; }
+.label { font-size: 11px; color: #9b7fd4; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+</style>
+<div class="card-wrap">
+  <div class="card">
+    <div class="label">过去</div>
+    <div class="card-face">
+      <div class="card-symbol">🌙</div>
+      <div class="card-name">月亮</div>
+      <div class="card-orient">逆位</div>
+    </div>
+    <div class="card-title">隐藏的混乱</div>
+    <div class="card-desc">过去的关系中，有些事情从未被说清楚。误解、逃避或不安全感曾悄悄侵蚀了连接。</div>
+  </div>
+  <div class="card">
+    <div class="label">现在</div>
+    <div class="card-face">
+      <div class="card-symbol">⚔️</div>
+      <div class="card-name">宝剑三</div>
+      <div class="card-orient">正位</div>
+    </div>
+    <div class="card-title">心碎与真相</div>
+    <div class="card-desc">现在正处于痛苦的核心。这张牌不绕弯——感情确实受伤了，但它也象征着清醒与诚实面对。</div>
+  </div>
+  <div class="card">
+    <div class="label">未来</div>
+    <div class="card-face">
+      <div class="card-symbol">☀️</div>
+      <div class="card-name">太阳</div>
+      <div class="card-orient">正位</div>
+    </div>
+    <div class="card-title">光明与新生</div>
+    <div class="card-desc">前方有希望。走过这段黑暗之后，会有更真实、更温暖的情感等待着你。</div>
+  </div>
+</div>

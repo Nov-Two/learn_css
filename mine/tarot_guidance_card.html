@@ -1,0 +1,41 @@
+
+<style>
+.guide-wrap { display: flex; flex-direction: column; align-items: center; padding: 28px 16px; gap: 20px; }
+.card-face {
+  width: 160px; height: 260px; border-radius: 12px;
+  background: linear-gradient(160deg, #0d1f2d, #1a3a4a);
+  border: 1.5px solid #4a9eb5;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  box-shadow: 0 4px 28px rgba(50,160,200,0.18);
+}
+.card-face::before {
+  content: ''; position: absolute; inset: 8px;
+  border-radius: 8px; border: 1px solid rgba(255,255,255,0.1);
+}
+.card-symbol { font-size: 52px; margin-bottom: 10px; }
+.card-name { font-size: 14px; font-weight: 500; color: #c8eaf5; letter-spacing: 0.05em; }
+.card-orient { font-size: 11px; color: #7ac4da; margin-top: 5px; }
+.label { font-size: 11px; color: #5bbcd6; text-transform: uppercase; letter-spacing: 0.1em; }
+.guide-body { max-width: 380px; text-align: center; }
+.guide-title { font-size: 17px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 10px; }
+.guide-points { text-align: left; display: flex; flex-direction: column; gap: 10px; margin-top: 12px; }
+.point { display: flex; gap: 10px; align-items: flex-start; font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; }
+.dot { width: 6px; height: 6px; border-radius: 50%; background: #4a9eb5; margin-top: 6px; flex-shrink: 0; }
+</style>
+<div class="guide-wrap">
+  <div class="label">指引牌</div>
+  <div class="card-face">
+    <div class="card-symbol">⭐</div>
+    <div class="card-name">星星</div>
+    <div class="card-orient">正位</div>
+  </div>
+  <div class="guide-body">
+    <div class="guide-title">放下，然后温柔地疗愈</div>
+    <div class="guide-points">
+      <div class="point"><div class="dot"></div><span>不要急着"解决"问题或强行修复关系。星星牌代表的是静下来，让时间和内心的光慢慢工作。</span></div>
+      <div class="point"><div class="dot"></div><span>现在最重要的事是照顾好自己——无论是倾诉、休息，还是重新找到让你感到平静的事物。</span></div>
+      <div class="point"><div class="dot"></div><span>对未来保持希望，但不要执着于某一个结果。星星象征方向，不是终点——走着走着，路会更清晰。</span></div>
+    </div>
+  </div>
+</div>
